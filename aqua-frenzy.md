@@ -1,0 +1,4 @@
+# AquaFrenzy
+
+`pip install chess`
+
