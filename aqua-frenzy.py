@@ -10,9 +10,48 @@ debug = False
 moves = []
 board = chess.Board()
 
+piece_values = {
+    chess.PAWN: 1,
+    chess.KNIGHT: 3,
+    chess.BISHOP: 3.2,
+    chess.ROOK: 5,
+    chess.QUEEN: 9,
+    chess.KING: 1000,
+}
+
+def evaluate(board):
+    total = 0
+    for square in chess.SQUARES:
+        piece = board.piece_at(square)
+        if not piece:
+            continue
+        elif piece.color == chess.WHITE:
+            total += piece_values[piece.piece_type]
+        else:
+            total -= piece_values[piece.piece_type]
+    return total
+
 def find_move(board):
+    black_to_move = board.turn == chess.BLACK
+
     moves = list(board.legal_moves)
-    return random.choice(moves)
+    max_eval = float('-inf')
+    best_moves = []
+
+    for move in moves:
+        board.push(move)
+        eval = evaluate(board)
+        if black_to_move:
+            eval *= -1
+
+        if (eval > max_eval + 0.001):
+            max_eval = eval
+            best_moves = [move]
+        elif (eval > max_eval - 0.001):
+            best_moves.append(move)
+        board.pop()
+
+    return random.choice(best_moves)
 
 def handle(line, board):
     global moves
