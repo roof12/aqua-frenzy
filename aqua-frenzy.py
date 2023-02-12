@@ -51,7 +51,8 @@ def find_move(board):
             best_moves.append(move)
         board.pop()
 
-    return random.choice(best_moves)
+    cp = int(max_eval * 100)
+    return random.choice(best_moves), cp
 
 def handle(line, board):
     global moves
@@ -88,7 +89,8 @@ def handle(line, board):
 
     elif cmd == "go":
         # TODO: support FEN
-        move = find_move(board)
+        move, cp = find_move(board)
+        print(f"info score cp {cp}")
         print(f"bestmove {move.uci()}")
     else:
         pass
