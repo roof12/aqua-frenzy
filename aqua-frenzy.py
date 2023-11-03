@@ -76,10 +76,13 @@ def handle(line, board):
         sys.exit(0)
 
     elif cmd == "debug":
+        # TODO: support 'off' and 'on'
         debug = True
 
     elif cmd == "position":
         # TODO: support FEN
+        if len(tokens) == 1: return 
+
         if tokens[1] == "startpos":
             board.reset()
 
